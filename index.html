@@ -191,13 +191,18 @@
       <section id="quiz" class="section">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">互動問答</p>
-            <h2>詐騙判斷小測驗</h2>
+            <p class="eyebrow">情境演練・共 5 題</p>
+            <h2>反詐偵查挑戰</h2>
+            <p class="section-description">每題選出最安全的下一步。題目為依官方案例改寫的演練情境，不是案件原文。</p>
           </div>
 
           <div class="quiz-card">
             <div class="quiz-head">
-              <span id="progress-text" class="quiz-progress">1 / 3</span>
+              <span id="progress-text" class="quiz-progress">第 1 / 5 題</span>
+              <span id="score-text" class="quiz-score">得分 0</span>
+            </div>
+            <div class="quiz-progress-bar" role="progressbar" aria-label="挑戰進度" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0">
+              <span id="progress-fill"></span>
             </div>
 
             <h3 id="question-text" class="quiz-question"></h3>
@@ -205,7 +210,7 @@
             <div id="options" class="quiz-options" aria-live="polite"></div>
 
             <div id="feedback" class="feedback-box hidden" aria-live="polite">
-              <strong>回饋：</strong>
+              <strong>辨識重點：</strong>
               <span id="feedback-text"></span>
             </div>
 
@@ -395,27 +400,43 @@
 
       const questions = [
         {
-          question: "收到一則簡訊：『帳號將被鎖定，請立即點擊連結更新資料』。你會怎麼做？",
+          question: "你在社群平台買演唱會門票，賣家傳來交易連結。頁面上的客服說要操作網銀驗證，還要你提供提款 QR Code。你會怎麼做？",
           options: [
-            { text: "立刻點擊連結更新資料", correct: false, feedback: "這很可能是詐騙訊息。先停下來，別直接點擊連結。" },
-            { text: "用官方 App 或客服電話確認是否真的有問題", correct: true, feedback: "正確。先用官方管道確認，能避免被假連結騙取資料。" },
-            { text: "直接回覆簡訊提供帳號和密碼", correct: false, feedback: "這會讓個資風險大增。不要在不明訊息下提供帳號或密碼。" }
+            { text: "停止操作，改從官方購物平台查證", correct: true, feedback: "正確。假交易連結可能把買家導向假客服；要求網銀驗證或提款 QR Code 是明顯警訊。" },
+            { text: "只轉一小筆錢測試客服是不是真的", correct: false, feedback: "轉帳驗證本身就是風險，金額小也可能讓對方取得操作帳戶的機會。" },
+            { text: "客服頁面看起來很正式，就照做", correct: false, feedback: "仿冒頁面也能做得很像官方。應離開連結，自己開啟官方 App 或網站查證。" }
           ]
         },
         {
-          question: "如果對方要求你『立刻匯款，否則就會有嚴重後果』，最合理的做法是什麼？",
+          question: "有人自稱警方，說你的證件遭冒用，要求你視訊出示身分證，接著用 LINE 傳來拘票並說「抗傳即拘」。怎麼辦？",
           options: [
-            { text: "立刻匯款，避免後續麻煩", correct: false, feedback: "不要在壓力下立刻匯款。這種語氣常是詐騙手法。" },
-            { text: "先冷靜下來，打官方電話或到官方管道確認", correct: true, feedback: "正確。先核實來源與真實性，才是最安全的選擇。" },
-            { text: "把這個訊息轉發給所有朋友", correct: false, feedback: "轉發雖然有提醒作用，但最好還是先查證，避免擴散錯誤資訊。" }
+            { text: "照做出示證件，證明自己清白", correct: false, feedback: "視訊出示證件會讓個資外洩。警政署案例提醒，假檢警會利用這種流程和恐嚇話術施壓。" },
+            { text: "先掛斷，再自行撥 165 或 110 查證", correct: true, feedback: "正確。不要使用對方提供的電話或連結；自行聯絡官方管道核實。" },
+            { text: "把拘票轉傳給對方認識的人問看看", correct: false, feedback: "轉傳不能確認對方身分，也可能散布個人資料；應直接透過官方電話查證。" }
           ]
         },
         {
-          question: "收到陌生電話說『客服需要你提供驗證碼』，你應該怎麼做？",
+          question: "朋友的 LINE 突然傳訊息借錢，說很急，並要求匯到一個新帳戶。你該怎麼確認？",
           options: [
-            { text: "直接提供驗證碼，讓他幫你處理", correct: false, feedback: "驗證碼等於登入權限，絕不能在未確認來源時提供。" },
-            { text: "先掛電話，自己用官方客服電話或官方 App 確認", correct: true, feedback: "正確。官方客服不會要求你在不明來電中透露驗證碼。" },
-            { text: "配合對方讓他遠端操控手機", correct: false, feedback: "這是非常危險的做法，可能造成帳號被盜用。" }
+            { text: "用平常保存的電話打給朋友本人", correct: true, feedback: "正確。帳號可能遭盜用，改用原有電話、視訊或共同親友確認身分。" },
+            { text: "在同一個 LINE 對話問他生日", correct: false, feedback: "若帳號已被盜，對方可能掌握聊天資訊；不要只在同一個帳號裡驗證。" },
+            { text: "先匯款，之後再打電話確認", correct: false, feedback: "款項可能難以追回。先確認本人，再決定是否提供協助。" }
+          ]
+        },
+        {
+          question: "投資網站顯示你已經獲利，想提領時客服卻要求先繳稅金和保證金。這時怎麼做？",
+          options: [
+            { text: "繳一次費用，拿回本金和獲利", correct: false, feedback: "官方案例指出，假投資網站可能用假獲利吸引加碼，再以稅金或保證金拖延出金。" },
+            { text: "停止付款，保留紀錄並查證平台", correct: true, feedback: "正確。不要再匯款；保存對話、交易紀錄，使用官方管道查詢並向 165 諮詢。" },
+            { text: "再投入一筆，確認網站是否真的會出金", correct: false, feedback: "追加款項會擴大損失。不要用匯款來測試平台真偽。" }
+          ]
+        },
+        {
+          question: "自稱客服的人說你抽中獎品，要你分享手機畫面、提供簡訊驗證碼並操作網銀才能領獎。最安全的做法是？",
+          options: [
+            { text: "照著操作，領到獎品後再改密碼", correct: false, feedback: "分享畫面、交出驗證碼或操作網銀都可能讓帳戶被控制或款項遭轉出。" },
+            { text: "不提供驗證碼、不分享畫面，改由官方客服查證", correct: true, feedback: "正確。獎品不應要求你交出登入憑證或配合操作網銀；自行從官方管道查證。" },
+            { text: "先提供驗證碼，但不提供密碼", correct: false, feedback: "驗證碼本身可能就是登入或交易授權，不能提供給來電或訊息中的陌生人。" }
           ]
         }
       ];
@@ -426,6 +447,9 @@
       const feedbackText = document.getElementById("feedback-text");
       const nextBtn = document.getElementById("next-btn");
       const progressText = document.getElementById("progress-text");
+      const scoreText = document.getElementById("score-text");
+      const progressFill = document.getElementById("progress-fill");
+      const progressBar = document.querySelector(".quiz-progress-bar");
       const scenarioCategories = document.getElementById("scenario-categories");
       const clearBtn = document.getElementById("clear-btn");
       const scenarioResults = document.getElementById("scenario-results");
@@ -434,15 +458,20 @@
       let currentQuestion = 0;
       let answered = false;
       let selectedAnswers = [];
+      let gameComplete = false;
 
       function renderQuestion() {
         const current = questions[currentQuestion];
         questionText.textContent = `${currentQuestion + 1}. ${current.question}`;
-        progressText.textContent = `${currentQuestion + 1} / ${questions.length}`;
+        progressText.textContent = `第 ${currentQuestion + 1} / ${questions.length} 題`;
+        scoreText.textContent = `得分 ${selectedAnswers.filter((answer, index) => answer !== undefined && questions[index].options[answer].correct).length}`;
+        progressFill.style.width = `${(currentQuestion / questions.length) * 100}%`;
+        progressBar.setAttribute("aria-valuenow", String(currentQuestion));
         optionsWrap.innerHTML = "";
         feedbackBox.classList.add("hidden");
         feedbackText.textContent = "";
         answered = false;
+        gameComplete = false;
         nextBtn.textContent = currentQuestion === questions.length - 1 ? "看結果" : "下一題";
 
         current.options.forEach((option, index) => {
@@ -462,23 +491,29 @@
         const optionButtons = document.querySelectorAll(".option-btn");
         optionButtons.forEach((button, buttonIndex) => {
           button.disabled = true;
-          if (buttonIndex === index) {
-            if (option.correct) {
-              button.classList.add("correct");
-            } else {
-              button.classList.add("wrong");
-            }
-          }
+          if (option.correct) button.classList.add("correct");
+          if (buttonIndex === index && !option.correct) button.classList.add("wrong");
         });
 
+        selectedAnswers[currentQuestion] = index;
+        const score = selectedAnswers.filter((answer, questionIndex) => answer !== undefined && questions[questionIndex].options[answer].correct).length;
+        scoreText.textContent = `得分 ${score}`;
+        progressFill.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+        progressBar.setAttribute("aria-valuenow", String(currentQuestion + 1));
         feedbackBox.classList.remove("hidden");
         feedbackText.textContent = option.feedback;
         feedbackBox.classList.toggle("success", option.correct);
         feedbackBox.classList.toggle("error", !option.correct);
-        selectedAnswers[currentQuestion] = index;
       }
 
       nextBtn.addEventListener("click", () => {
+        if (gameComplete) {
+          currentQuestion = 0;
+          selectedAnswers = [];
+          renderQuestion();
+          return;
+        }
+
         if (!answered) {
           feedbackBox.classList.remove("hidden");
           feedbackText.textContent = "請先選擇一個答案再繼續。";
@@ -497,21 +532,21 @@
           return total + (question.options[selectedAnswers[index]].correct ? 1 : 0);
         }, 0);
 
-        questionText.textContent = `測驗完成！你答對 ${score} / ${questions.length} 題。`;
+        gameComplete = true;
+        questionText.textContent = `挑戰完成！你答對 ${score} / ${questions.length} 題。`;
         optionsWrap.innerHTML = "";
         feedbackBox.classList.remove("hidden");
-        feedbackText.textContent = "提醒：只要先停下來核實來源、不要在壓力下匯款或提供驗證碼，你就能大幅降低被詐騙的風險。";
+        feedbackText.textContent = score >= 4
+          ? "辨識力很不錯！記得持續用官方管道查證，不因催促而匯款或交出驗證碼。"
+          : score >= 2
+            ? "已抓到部分警訊。再練習先停下來、換官方管道查證，尤其不要操作網銀或交出驗證碼。"
+            : "別氣餒。遇到催促、陌生連結、驗證碼或網銀操作要求時，先停下來並用官方管道查證。";
         feedbackBox.classList.add("success");
         feedbackBox.classList.remove("error");
-        progressText.textContent = "完成";
-        nextBtn.textContent = "重新開始";
-        nextBtn.onclick = () => {
-          currentQuestion = 0;
-          answered = false;
-          selectedAnswers = [];
-          nextBtn.onclick = null;
-          renderQuestion();
-        };
+        progressText.textContent = "挑戰完成";
+        progressFill.style.width = "100%";
+        progressBar.setAttribute("aria-valuenow", String(questions.length));
+        nextBtn.textContent = "再挑戰一次";
       });
 
       function showScenario(scenario) {
