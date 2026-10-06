@@ -447,6 +447,12 @@ img {
   gap: 24px;
 }
 
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
 .info-card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -476,6 +482,22 @@ img {
 .check-item p {
   margin: 0;
   color: var(--muted);
+}
+
+.info-card p + p {
+  margin-top: 12px;
+}
+
+.case-warning {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.info-card a {
+  color: var(--primary-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .checklist {
@@ -722,6 +744,7 @@ img {
 @media (max-width: 900px) {
   .hero-inner,
   .card-grid,
+  .case-grid,
   .emergency-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -757,6 +780,7 @@ img {
   }
 
   .card-grid,
+  .case-grid,
   .emergency-grid {
     grid-template-columns: 1fr;
   }
