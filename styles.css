@@ -66,6 +66,7 @@ img {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 24px;
   flex-wrap: wrap;
 }
@@ -78,6 +79,45 @@ img {
 
 .nav-links a:hover {
   color: var(--primary);
+}
+
+.nav-more {
+  position: relative;
+}
+
+.nav-more summary {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 11;
+  display: grid;
+  gap: 4px;
+  min-width: 180px;
+  padding: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.nav-menu a {
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.nav-menu a:hover {
+  background: var(--panel-alt);
 }
 
 .hero {
@@ -401,15 +441,13 @@ img {
   color: var(--muted);
 }
 
-.card-grid,
-.steps-grid {
+.card-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
 }
 
-.info-card,
-.step-box {
+.info-card {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -429,14 +467,12 @@ img {
 }
 
 .info-card h3,
-.step-box h3,
 .check-item h3 {
   margin: 16px 0 10px;
   font-size: 1.25rem;
 }
 
 .info-card p,
-.step-box p,
 .check-item p {
   margin: 0;
   color: var(--muted);
@@ -686,7 +722,6 @@ img {
 @media (max-width: 900px) {
   .hero-inner,
   .card-grid,
-  .steps-grid,
   .emergency-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -722,7 +757,6 @@ img {
   }
 
   .card-grid,
-  .steps-grid,
   .emergency-grid {
     grid-template-columns: 1fr;
   }

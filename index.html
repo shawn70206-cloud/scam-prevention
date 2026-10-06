@@ -20,16 +20,20 @@
     <header class="topbar">
       <div class="container nav">
         <div class="brand">防詐騙提醒站</div>
-        <nav class="nav-links">
-          <a href="#warning">常見手法</a>
-          <a href="#checklist">檢查清單</a>
-          <a href="#steps">防範步驟</a>
-          <a href="#database">情境資料庫</a>
-          <a href="#prevention">日常預防</a>
-          <a href="#quiz">小測驗</a>
-          <a href="#faq">Q&A</a>
-          <a href="#sources">資料來源</a>
-          <a href="#contact">求助資訊</a>
+        <nav class="nav-links" aria-label="主要導覽">
+          <a href="#checklist">收到可疑訊息</a>
+          <a href="#database">查詢情境</a>
+          <a href="#steps">我已受影響</a>
+          <a href="#contact">聯絡求助</a>
+          <details class="nav-more">
+            <summary>更多</summary>
+            <div class="nav-menu">
+              <a href="#warning">常見手法</a>
+              <a href="#quiz">詐騙小測驗</a>
+              <a href="#faq">常見問題</a>
+              <a href="#sources">資料來源</a>
+            </div>
+          </details>
         </nav>
       </div>
     </header>
@@ -45,8 +49,8 @@
               先停下來、核對來源，再決定是否回應。
             </p>
             <div class="cta-group">
-              <a href="#checklist" class="primary-btn">立即檢查</a>
-              <a href="#warning" class="secondary-btn">常見詐騙手法</a>
+              <a href="#checklist" class="primary-btn">收到可疑訊息</a>
+              <a href="#steps" class="secondary-btn">我已經受影響</a>
             </div>
             <ul class="mini-points" aria-label="防詐騙基本原則">
               <li>不要在壓力下立即匯款或提供資料</li>
@@ -55,7 +59,7 @@
             </ul>
           </div>
           <div class="hero-card">
-            <div class="alert-badge">高風險 signal</div>
+            <div class="alert-badge">高風險訊號</div>
             <h2>詐騙訊息可能具有這些特徵</h2>
             <ul>
               <li>要求你立即轉帳或匯款</li>
@@ -102,42 +106,28 @@
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">檢查清單</p>
-            <h2>收到可疑訊息時，先做這 5 步</h2>
+            <h2>先停下來，再做這 3 步</h2>
           </div>
           <div class="checklist">
             <div class="check-item">
               <span class="num">1</span>
               <div>
                 <h3>先停下</h3>
-                <p>不要立即回覆、點擊連結或匯款。先把情緒放下，再做後續確認。</p>
+                <p>不要回覆、點連結、下載檔案或匯款；對方越催促，越要先暫停。</p>
               </div>
             </div>
             <div class="check-item">
               <span class="num">2</span>
               <div>
-                <h3>核對來源</h3>
-                <p>透過官方網站、官方 App 或已知電話重新聯絡，不要直接相信簡訊或來電內容。</p>
+                <h3>用官方管道查證</h3>
+                <p>自己開啟官方網站或 App，或撥打已知電話確認，不使用訊息提供的連結與電話。</p>
               </div>
             </div>
             <div class="check-item">
               <span class="num">3</span>
               <div>
-                <h3>確認細節</h3>
-                <p>留意網址、帳號、語氣與要求是否不合理。若有壓力、威脅或高回報，應提高警覺。</p>
-              </div>
-            </div>
-            <div class="check-item">
-              <span class="num">4</span>
-              <div>
-                <h3>保護資料</h3>
-                <p>不要提供帳號、密碼、驗證碼、金融卡資料或遠端操作權限。</p>
-              </div>
-            </div>
-            <div class="check-item">
-              <span class="num">5</span>
-              <div>
-                <h3>立即通報</h3>
-                <p>如果已受影響，盡快向銀行、平台或警察機關報案，並保留完整證據。</p>
+                <h3>保護資料，必要時求助</h3>
+                <p>不提供密碼、驗證碼或遠端操作權限。若已受影響，保存訊息與交易紀錄，撥打 165 或向警方求助。<a href="#source-1">[1]</a><a href="#source-2">[2]</a></p>
               </div>
             </div>
           </div>
@@ -196,29 +186,6 @@
               <button id="clear-btn" class="text-btn" type="button">重新選擇</button>
             </div>
             <div id="scenario-results" class="scenario-results" aria-live="polite"></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="prevention" class="section">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">防範步驟</p>
-            <h2>建立習慣，降低被騙風險</h2>
-          </div>
-          <div class="steps-grid">
-            <div class="step-box">
-              <h3>建立二次確認習慣</h3>
-              <p>任何涉及轉帳、取款或鎖定帳戶的指示，都先用官方管道再次確認。</p>
-            </div>
-            <div class="step-box">
-              <h3>查證連結與網址</h3>
-              <p>不要直接點擊短網址或陌生連結，最好手動輸入官方網站再登入。</p>
-            </div>
-            <div class="step-box">
-              <h3>保護裝置安全</h3>
-              <p>定期更新手機與電腦、開啟防毒軟體、避免下載來源不明的應用程式。</p>
-            </div>
           </div>
         </div>
       </section>
