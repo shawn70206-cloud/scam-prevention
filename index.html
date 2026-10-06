@@ -23,6 +23,7 @@
         <nav class="nav-links">
           <a href="#warning">常見手法</a>
           <a href="#checklist">檢查清單</a>
+          <a href="#database">情境資料庫</a>
           <a href="#steps">防範步驟</a>
           <a href="#faq">Q&A</a>
           <a href="#contact">求助資訊</a>
@@ -136,6 +137,36 @@
                 <p>如果已受影響，盡快向銀行、平台或警察機關報案，並保留完整證據。</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="database" class="section alt">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">情境資料庫</p>
+            <h2>輸入你現在遇到的狀況，找出適合的處理方式</h2>
+            <p class="section-description">
+              這是快速查閱工具，請勿將帳號密碼、驗證碼或金融資料直接提供給不明對象。
+            </p>
+          </div>
+
+          <div class="database-search-card">
+            <label class="search-label" for="scenario-search">搜尋情境</label>
+            <div class="search-row">
+              <input
+                id="scenario-search"
+                type="search"
+                placeholder="例如：匯款、連結、驗證碼、假冒客服"
+                autocomplete="off"
+              />
+              <button id="search-btn" class="primary-btn" type="button">搜尋</button>
+            </div>
+            <div class="search-meta">
+              <span id="result-count">0 個相關情境</span>
+              <button id="clear-btn" class="text-btn" type="button">清除搜尋</button>
+            </div>
+            <div id="scenario-results" class="scenario-results" aria-live="polite"></div>
           </div>
         </div>
       </section>
@@ -283,6 +314,45 @@
     </footer>
 
     <script>
+      const scenarios = [
+        {
+          title: "收到要求立即匯款的訊息",
+          keywords: ["匯款", "轉帳", "付款", "錢", "催款", "急著付款"],
+          action: "先停止行動，不要匯款或點擊對方指定的連結。用官方客服電話或官方 App 確認交易，若已匯款請立即聯絡銀行止付。",
+          alert: "匯款後通常難以追回。任何涉及金錢的要求，都應先重新確認來源。"
+        },
+        {
+          title: "收到可疑連結或附件",
+          keywords: ["連結", "網址", "附件", "短網址", "下載", "點擊"],
+          action: "不要點擊、下載或輸入帳號密碼。可透過官方網站或 App 重新開啟服務，並將訊息截圖保存。",
+          alert: "假連結可能偽裝成銀行、電商或政府服務的官方頁面。"
+        },
+        {
+          title: "陌生電話要求提供驗證碼",
+          keywords: ["驗證碼", "OTP", "簡訊碼", "手機驗證", "客服電話"],
+          action: "不要提供驗證碼、登入密碼或遠端操作權限。先掛電話，再以官方電話或官方 App 聯絡服務商確認。",
+          alert: "驗證碼等於帳號的登入權限，提供後可能直接失去帳號控制權。"
+        },
+        {
+          title: "收到假冒親友或熟人訊息",
+          keywords: ["親友", "熟人", "借錢", "緊急求助", "朋友", "同事"],
+          action: "先用對方熟悉的其他聯絡方式確認，例如打電話給本人或詢問共同認識的人。不要直接轉帳或提供個資。",
+          alert: "詐騙者可能盜用帳號或假冒熟人，請不要因緊急語氣而立刻行動。"
+        },
+        {
+          title: "帳戶或個人資料異常",
+          keywords: ["帳戶異常", "被盜用", "登入異常", "資料外洩", "帳號鎖定"],
+          action: "立即停止使用受影響帳號，改密碼並啟用雙重驗證；必要時聯絡銀行、平台客服或警方。",
+          alert: "若已經提供密碼或驗證碼，應盡快改密碼並檢查交易紀錄。"
+        },
+        {
+          title: "收到可疑投資或高回報訊息",
+          keywords: ["投資", "賺錢", "高回報", "快速賺錢", "投資機會"],
+          action: "不要繳交費用、匯款或提供證件。先查證公司及平台是否存在，並向投資警示或警方機關查詢。",
+          alert: "高回報、低風險的承諾通常是不可信的。"
+        }
+      ];
+
       const questions = [
         {
           question: "收到一則簡訊：『帳號將被鎖定，請立即點擊連結更新資料』。你會怎麼做？",
@@ -316,6 +386,11 @@
       const feedbackText = document.getElementById("feedback-text");
       const nextBtn = document.getElementById("next-btn");
       const progressText = document.getElementById("progress-text");
+      const scenarioSearch = document.getElementById("scenario-search");
+      const searchBtn = document.getElementById("search-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const scenarioResults = document.getElementById("scenario-results");
+      const resultCount = document.getElementById("result-count");
 
       let currentQuestion = 0;
       let answered = false;
@@ -400,7 +475,63 @@
         };
       });
 
+      function searchScenarios() {
+        const query = scenarioSearch.value.trim().toLowerCase();
+
+        const matches = scenarios.filter((scenario) => {
+          const text = `${scenario.title} ${scenario.keywords.join(" ")} ${scenario.action} ${scenario.alert}`.toLowerCase();
+          return text.includes(query);
+        });
+
+        const orderedMatches = matches.sort((a, b) => {
+          const aMatches = a.keywords.filter((keyword) => query.includes(keyword.toLowerCase())).length;
+          const bMatches = b.keywords.filter((keyword) => query.includes(keyword.toLowerCase())).length;
+          return bMatches - aMatches;
+        });
+
+        scenarioResults.innerHTML = "";
+        resultCount.textContent = `${orderedMatches.length} 個相關情境`;
+
+        if (!orderedMatches.length) {
+          scenarioResults.innerHTML = `
+            <div class="empty-result">
+              <strong>找不到相關情境</strong>
+              <p>試試搜尋「匯款」、「驗證碼」、「連結」、「假冒客服」或「帳戶異常」。</p>
+            </div>
+          `;
+          return;
+        }
+
+        orderedMatches.forEach((scenario) => {
+          const article = document.createElement("article");
+          article.className = "scenario-card";
+          article.innerHTML = `
+            <div class="scenario-header">
+              <span class="scenario-badge">適用情境</span>
+              <h3>${scenario.title}</h3>
+            </div>
+            <div class="scenario-body">
+              <p><strong>處理方式：</strong>${scenario.action}</p>
+              <p><strong>注意事項：</strong>${scenario.alert}</p>
+            </div>
+          `;
+          scenarioResults.appendChild(article);
+        });
+      }
+
+      searchBtn.addEventListener("click", searchScenarios);
+      scenarioSearch.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") searchScenarios();
+      });
+      clearBtn.addEventListener("click", () => {
+        scenarioSearch.value = "";
+        scenarioResults.innerHTML = "";
+        resultCount.textContent = "0 個相關情境";
+        scenarioSearch.focus();
+      });
+
       renderQuestion();
+      searchScenarios();
     </script>
   </body>
 </html>
